@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
+import mn.frd.yeahKarma.database.PooledConnection;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -50,17 +51,18 @@ public class Karma extends JavaPlugin {
 		String portnmbr = this.getConfig().getString("database.portnmbr");  
 		String database = this.getConfig().getString("database.database");  
 		String username = this.getConfig().getString("database.username");  
-		String password = this.getConfig().getString("database.password"); 
+		String password = this.getConfig().getString("database.password");
+        Integer maxConnections = this.getConfig().getInt("database.maxconnections");
 		
-		mysql = new MySQLDatabase(hostname, portnmbr, database, username, password);
+		mysql = new MySQLDatabase(hostname, portnmbr, database, username, password, maxConnections);
 		
 		boolean transexists = false;
 		boolean exists = false;
-		
-		try {
-			mysql.open();
-			
-			ResultSet result = mysql.getConnection().getMetaData().getTables(null, null, "Player", null);
+
+        PooledConnection connection = mysql.getConnection();
+        try {
+
+			ResultSet result = connection.getSQLConnection().getMetaData().getTables(null, null, "Player", null);
 			if(result.next())
 				exists = true;
 			
@@ -72,7 +74,7 @@ public class Karma extends JavaPlugin {
 					+ "PRIMARY KEY (id)"
 					+ ")";
 			
-			result = mysql.getConnection().getMetaData().getTables(null, null, "Transaction", null);
+			result = connection.getSQLConnection().getMetaData().getTables(null, null, "Transaction", null);
 			
 			String transaction = "CREATE TABLE Transaction"
 					+ "("
@@ -93,9 +95,9 @@ public class Karma extends JavaPlugin {
 			}
 
 			if(!exists)
-				mysql.query(player);
+                connection.query(player);
 			if(!transexists)
-				mysql.query(transaction);
+                connection.query(transaction);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			this.getLogger().log(Level.SEVERE, "Cannot connect to database.");
@@ -103,9 +105,10 @@ public class Karma extends JavaPlugin {
 			return false;
 		} catch (Exception e){
 			e.printStackTrace();
-		}
-		
-		mysql.close();
+		} finally {
+            connection.close();
+        }
+
 		return true;
 	}
 
