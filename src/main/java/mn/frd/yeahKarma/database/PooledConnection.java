@@ -192,7 +192,7 @@ public class PooledConnection {
         Timestamp ts = new Timestamp(date.getTime());
 
         try{
-            PreparedStatement selectPlayer = connection.prepareStatement("SELECT * FROM Player WHERE name='?'");
+            PreparedStatement selectPlayer = connection.prepareStatement("SELECT * FROM Player WHERE name=?");
             selectPlayer.setString(1, name);
             ResultSet result = selectPlayer.executeQuery();
             result.next();
@@ -220,7 +220,7 @@ public class PooledConnection {
                 update.setInt(2, id);
                 update.executeUpdate();
 
-                PreparedStatement transactionInsert = connection.prepareStatement("INSERT INTO  Transaction (player,admin,timestamp,reason,value) VALUES ('?', '?', '?', '?', '?')");
+                PreparedStatement transactionInsert = connection.prepareStatement("INSERT INTO  Transaction (player,admin,timestamp,reason,value) VALUES (?, ?, ?, ?, ?)");
                 transactionInsert.setInt(1, id);
                 transactionInsert.setString(2, admin);
                 transactionInsert.setTimestamp(3, ts);
@@ -242,7 +242,7 @@ public class PooledConnection {
 
     public int getKarma(String name){
         try{
-            PreparedStatement selectPlayer = connection.prepareStatement("SELECT * FROM Player WHERE name='?'");
+            PreparedStatement selectPlayer = connection.prepareStatement("SELECT * FROM Player WHERE name=?");
             selectPlayer.setString(1, name);
             ResultSet result = selectPlayer.executeQuery();
             result.next();

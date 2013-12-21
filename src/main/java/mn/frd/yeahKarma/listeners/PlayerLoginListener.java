@@ -30,13 +30,13 @@ public class PlayerLoginListener implements Listener {
 
                 try {
                     //Use prepared Statements to avoid SQL Injection
-                    PreparedStatement selectPlayer = connection.getSQLConnection().prepareStatement("SELECT * FROM Player WHERE name='?'");
+                    PreparedStatement selectPlayer = connection.getSQLConnection().prepareStatement("SELECT * FROM Player WHERE name=?");
                     selectPlayer.setString(1, name);
                     ResultSet result = selectPlayer.executeQuery();
 
                     //Player is not in Database => Create one
                     if (!result.next()) {
-                        PreparedStatement insertPlayer = connection.getSQLConnection().prepareStatement("INSERT INTO Player (name, karma) VALUES ('?', '0')");
+                        PreparedStatement insertPlayer = connection.getSQLConnection().prepareStatement("INSERT INTO Player (name, karma) VALUES (?, 0)");
                         insertPlayer.setString(1, name);
                         insertPlayer.executeUpdate();
                     }

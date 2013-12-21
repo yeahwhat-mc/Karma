@@ -6,7 +6,7 @@
 
     <groupId>mn.frd</groupId>
     <artifactId>yeahkarma</artifactId>
-    <version>0.4.0</version>
+    <version>0.4.1</version>
 
     <build>
         <defaultGoal>clean install</defaultGoal>
