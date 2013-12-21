@@ -16,16 +16,26 @@ import java.util.Date;
 public class PooledConnection {
     private Connection connection = null;
     private MySQLDatabase mySQLDatabase;
+    private String hostname;
+    private String portnmbr;
+    private String database;
+    private String username;
+    private String password;
 
     public PooledConnection(MySQLDatabase mySQLDatabase) {
         this.mySQLDatabase = mySQLDatabase;
     }
 
     public void connect(String hostname, String portnmbr, String database, String username, String password) {
-        String url = "";
+        this.hostname = hostname;
+        this.portnmbr = portnmbr;
+        this.database = database;
+        this.username = username;
+        this.password = password;
+
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            url = "jdbc:mysql://" + hostname + ":" + portnmbr + "/" + database;
+            String url = "jdbc:mysql://" + hostname + ":" + portnmbr + "/" + database;
             this.connection = DriverManager.getConnection(url, username, password);
         } catch (SQLException e) {
             System.out.print("Could not connect to MySQL server!");
@@ -42,6 +52,17 @@ public class PooledConnection {
 
     public void close() {
         this.mySQLDatabase.resetPooledConnection(this);
+    }
+
+    private void reconnect() {
+        try {
+            connection.close();
+            connect(hostname, portnmbr, database, username, password);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -65,6 +86,8 @@ public class PooledConnection {
                 try {
                     statement.executeUpdate(query);
                 } catch (SQLException ex) {
+                    reconnect();
+
                     if (e.getMessage().startsWith("You have an error in your SQL syntax;")) {
                         String temp = (e.getMessage().split(";")[0].substring(0, 36) + e.getMessage().split(";")[1].substring(91));
                         temp = temp.substring(0, temp.lastIndexOf("'"));
@@ -74,10 +97,12 @@ public class PooledConnection {
                     }
                 }
             } else if (e.getMessage().startsWith("You have an error in your SQL syntax;")) {
+                reconnect();
                 String temp = (e.getMessage().split(";")[0].substring(0, 36) + e.getMessage().split(";")[1].substring(91));
                 temp = temp.substring(0, temp.lastIndexOf("'"));
                 throw new SQLException(temp);
             } else {
+                reconnect();
                 throw new Exception();
             }
         }
@@ -105,6 +130,7 @@ public class PooledConnection {
             statement.executeUpdate(query);
             return true;
         } catch (SQLException e) {
+            reconnect();
             return false;
         }
     }
@@ -135,6 +161,7 @@ public class PooledConnection {
             statement.execute("INSERT INTO " + table + "(" + columns + ") VALUES (" + values + ")");
             return true;
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
             return false;
         }
@@ -156,6 +183,7 @@ public class PooledConnection {
             statement.executeUpdate("DROP TABLE " + table);
             return true;
         } catch (SQLException e) {
+            reconnect();
             e.printStackTrace();
             return false;
         }
@@ -179,6 +207,7 @@ public class PooledConnection {
             }
 
         } catch (Exception e){
+            reconnect();
             e.printStackTrace();
         }
 
@@ -231,6 +260,7 @@ public class PooledConnection {
                 return false;
             }
         } catch(Exception e){
+            reconnect();
             e.printStackTrace();
             return false;
         } finally {
@@ -249,6 +279,7 @@ public class PooledConnection {
 
             return result.getInt("karma");
         }catch (Exception e){
+            reconnect();
             return 0;
         }
 
