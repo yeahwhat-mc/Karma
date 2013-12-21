@@ -1,6 +1,6 @@
 name: yeahKarma
 main: mn.frd.yeahKarma.Karma
-version: 0.4.1
+version: 0.4.2
 author: frdmn
 description: Reward players for being good. Punish players for being bad.
 commands:

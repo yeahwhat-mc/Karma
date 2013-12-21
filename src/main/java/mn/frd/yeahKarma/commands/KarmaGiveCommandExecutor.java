@@ -12,6 +12,8 @@ import mn.frd.yeahKarma.database.MySQLDatabase;
 import mn.frd.yeahKarma.Karma;
 import mn.frd.yeahKarma.Message;
 
+import java.util.Arrays;
+
 
 public class KarmaGiveCommandExecutor implements CommandExecutor  {
 	private Karma plugin;
@@ -43,7 +45,7 @@ public class KarmaGiveCommandExecutor implements CommandExecutor  {
 	}
 	
 	private String getReason(String[] args){
-		String reason = StringUtils.join(args, " ");
+		String reason = StringUtils.join(Arrays.copyOfRange(args, 1, args.length), " ");
 		reason = reason.trim();
 		return reason;
 	}

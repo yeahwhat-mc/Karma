@@ -13,6 +13,8 @@ import mn.frd.yeahKarma.Karma;
 import mn.frd.yeahKarma.Message;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Arrays;
+
 public class KarmaTakeCommandExecutor implements CommandExecutor  {
 	private Karma plugin;
 	
@@ -45,7 +47,7 @@ public class KarmaTakeCommandExecutor implements CommandExecutor  {
 	}
 	
 	private String getReason(String[] args){
-		String reason = StringUtils.join(args, " ");
+		String reason = StringUtils.join(Arrays.copyOfRange(args, 1, args.length), " ");
 		reason = reason.trim();
 		return reason;
 	}
