@@ -11,7 +11,7 @@ import mn.frd.yeahKarma.database.MySQLDatabase;
 import mn.frd.yeahKarma.Karma;
 import mn.frd.yeahKarma.Message;
 
-public class KarmaCommandExecutor extends Karma implements CommandExecutor  {
+public class KarmaCommandExecutor implements CommandExecutor  {
 	private Karma plugin;
 	
 	public KarmaCommandExecutor(Karma instance){
