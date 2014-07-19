@@ -1,6 +1,6 @@
-package mn.frd.yeahKarma.commands;
+package at.yeahwh.Karma.commands;
 
-import mn.frd.yeahKarma.database.PooledConnection;
+import at.yeahwh.Karma.database.PooledConnection;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -8,17 +8,17 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import mn.frd.yeahKarma.database.MySQLDatabase;
-import mn.frd.yeahKarma.Karma;
-import mn.frd.yeahKarma.Message;
+import at.yeahwh.Karma.database.MySQLDatabase;
+import at.yeahwh.Karma.Karma;
+import at.yeahwh.Karma.Message;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
 
-
-public class KarmaGiveCommandExecutor implements CommandExecutor  {
+public class KarmaTakeCommandExecutor implements CommandExecutor  {
 	private Karma plugin;
 	
-	public KarmaGiveCommandExecutor(Karma instance){
+	public KarmaTakeCommandExecutor(Karma instance){
 		plugin = instance;
 	}
 	
@@ -28,10 +28,11 @@ public class KarmaGiveCommandExecutor implements CommandExecutor  {
             @Override
             public void run() {
                 String adminName = sender.getName();
+
                 if(args.length<1){
-                    sender.sendMessage("usage: /karmagive <player> [reason]");
+                    sender.sendMessage("usage: /karmatake <player> [reason]");
                 } else {
-                    if(args.length > 1) {
+                    if(args.length > 1){
                         String message = giveKarma(adminName, args[0], getReason(args));
                         sender.sendMessage(message);
                     } else {
@@ -40,6 +41,7 @@ public class KarmaGiveCommandExecutor implements CommandExecutor  {
                 }
             }
         }, 2);
+
 
 		return true;
 	}
@@ -57,10 +59,10 @@ public class KarmaGiveCommandExecutor implements CommandExecutor  {
 		try{
 			String name = connection.autoComplete(arg);
 			if(name != null){
-				if(connection.transaction(name, admin, 1, plugin.getCoolDown(),reason)){
+				if(connection.transaction(name, admin, -1, plugin.getCoolDown(), reason)){
 					int karma = connection.getKarma(name);
-					message = Message.getGivenMessage(plugin, name, karma, reason);
-					plugin.broadcast(name, admin, karma, reason, true);
+					message = Message.getTakenMessage(plugin, name, karma, reason);
+					plugin.broadcast(name, admin, karma, reason, false);
 				} else {
 					message = Message.getCoolDownMessage(plugin, name, admin);
 				}

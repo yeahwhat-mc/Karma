@@ -1,15 +1,15 @@
-package mn.frd.yeahKarma.listeners;
+package at.yeahwh.Karma.listeners;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import mn.frd.yeahKarma.database.PooledConnection;
+import at.yeahwh.Karma.database.PooledConnection;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 
-import mn.frd.yeahKarma.Karma;
-import mn.frd.yeahKarma.database.MySQLDatabase;
+import at.yeahwh.Karma.Karma;
+import at.yeahwh.Karma.database.MySQLDatabase;
 
 public class PlayerLoginListener implements Listener {
 	private Karma plugin;

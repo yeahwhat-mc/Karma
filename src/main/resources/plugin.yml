@@ -1,5 +1,5 @@
-name: yeahKarma
-main: mn.frd.yeahKarma.Karma
+name: Karma
+main: at.yeahwh.Karma.Karma
 version: 0.4.3
 author: frdmn
 description: Reward players for being good. Punish players for being bad.

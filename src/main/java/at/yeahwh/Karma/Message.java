@@ -1,4 +1,4 @@
-package mn.frd.yeahKarma;
+package at.yeahwh.Karma;
 
 import org.bukkit.ChatColor;
 

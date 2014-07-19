@@ -1,4 +1,4 @@
-package mn.frd.yeahKarma.database;
+package at.yeahwh.Karma.database;
 
 import java.util.HashMap;
 import java.util.Map;

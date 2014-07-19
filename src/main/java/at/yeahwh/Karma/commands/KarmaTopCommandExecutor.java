@@ -1,16 +1,16 @@
-package mn.frd.yeahKarma.commands;
+package at.yeahwh.Karma.commands;
 
 import java.sql.ResultSet;
 
-import mn.frd.yeahKarma.database.PooledConnection;
+import at.yeahwh.Karma.database.PooledConnection;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import mn.frd.yeahKarma.database.MySQLDatabase;
-import mn.frd.yeahKarma.Karma;
-import mn.frd.yeahKarma.Message;
+import at.yeahwh.Karma.database.MySQLDatabase;
+import at.yeahwh.Karma.Karma;
+import at.yeahwh.Karma.Message;
 
 public class KarmaTopCommandExecutor implements CommandExecutor  {
 	private Karma plugin;

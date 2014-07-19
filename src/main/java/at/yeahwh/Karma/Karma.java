@@ -1,20 +1,20 @@
-package mn.frd.yeahKarma;
+package at.yeahwh.Karma;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
-import mn.frd.yeahKarma.database.PooledConnection;
+import at.yeahwh.Karma.database.PooledConnection;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import mn.frd.yeahKarma.commands.KarmaCommandExecutor;
-import mn.frd.yeahKarma.commands.KarmaGiveCommandExecutor;
-import mn.frd.yeahKarma.commands.KarmaTakeCommandExecutor;
-import mn.frd.yeahKarma.commands.KarmaTopCommandExecutor;
-import mn.frd.yeahKarma.database.MySQLDatabase;
-import mn.frd.yeahKarma.listeners.PlayerLoginListener;
+import at.yeahwh.Karma.commands.KarmaCommandExecutor;
+import at.yeahwh.Karma.commands.KarmaGiveCommandExecutor;
+import at.yeahwh.Karma.commands.KarmaTakeCommandExecutor;
+import at.yeahwh.Karma.commands.KarmaTopCommandExecutor;
+import at.yeahwh.Karma.database.MySQLDatabase;
+import at.yeahwh.Karma.listeners.PlayerLoginListener;
 
 public class Karma extends JavaPlugin {
 
